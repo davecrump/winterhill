@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=PIC_B
+Comment=Program PIC B
+Icon=/home/pi/winterhill/PIC-2v22/PIC.svg
+Exec=/home/pi/winterhill/PIC-2v22/whpic-2v22-b.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
+Categories=None
+X-KeepTerminal=true

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WH_Local
+Comment=Displays 4 VLCs on the RPi HDMI Screen
+Icon=/usr/share/pixmaps/openbox.png
+Exec=/home/pi/winterhill/RPi-2v22/whlaunch-local-2v22.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
+Categories=None
+X-KeepTerminal=true
