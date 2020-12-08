@@ -64,10 +64,10 @@ echo "---- Download the WinterHill Software -----"
 echo "-------------------------------------------"
 echo
 cd /home/pi
-#wget https://github.com/davecrump/winterhill/archive/main.zip
-#unzip -o main.zip
-#mv winterhill-main winterhill
-#rm main.zip
+wget https://github.com/davecrump/winterhill/archive/main.zip
+unzip -o main.zip
+mv winterhill-main winterhill
+rm main.zip
 
 echo "------------------------------------------"
 echo "---- Testing spi driver installation -----"
@@ -91,6 +91,7 @@ if [ $? != 0 ]; then
   echo failed to load WinterHill Driver
   exit
 else
+  echo
   echo Succesful driver build and load
 fi
 cd /home/pi
