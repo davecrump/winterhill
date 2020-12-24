@@ -1,12 +1,11 @@
 [Desktop Entry]
-Name=WH_to_mc
-Comment=Multicast to 230.0.0.230:9921, 2, 3, 4
+Name=WH_Anyhub
+Comment=TS is sent to wherever the QT receive command came from
 Icon=/usr/share/pixmaps/openbox.png
-Exec=/home/pi/winterhill/RPi-2v22/whlaunch-multihub-2v22.sh
+Exec=/home/pi/winterhill/RPi-2v22/whlaunch-anyhub-2v22.sh
 Type=Application
 Encoding=UTF-8
 Terminal=true
 StartupNotify=false
 Categories=None
 X-KeepTerminal=true
-
