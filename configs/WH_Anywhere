@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=WH_to_PC
-Comment=Displays 4 VLCs on the RPi HDMI Screen
+Name=WH_Anywhere
+Comment=the TS is sent to wherever the QT receive command came from.  Four local VLCs
 Icon=/usr/share/pixmaps/openbox.png
 Exec=/home/pi/winterhill/RPi-2v22/whlaunch-anywhere-2v22.sh
 Type=Application
@@ -9,4 +9,4 @@ Terminal=true
 StartupNotify=false
 Categories=None
 X-KeepTerminal=true
-Comment[en_GB]=Send the TS to the calling PC
+

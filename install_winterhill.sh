@@ -31,13 +31,13 @@ echo "------------------------------------"
 echo
 sudo apt-get -y install xdotool xterm raspberrypi-kernel-headers
 
-#echo "--------------------------------------------------------------"
-#echo "---- Put the Desktop Toolbar at the bottom of the screen -----"
-#echo "--------------------------------------------------------------"
-
-#cd /home/pi/.config/lxpanel/LXDE-pi/panels
-#sed -i "/^  edge=top/c\  edge=bottom" panel
-#cd /home/pi
+echo "--------------------------------------------------------------"
+echo "---- Put the Desktop Toolbar at the bottom of the screen -----"
+echo "--------------------------------------------------------------"
+echo
+cd /home/pi/.config/lxpanel/LXDE-pi/panels
+sed -i "/^  edge=top/c\  edge=bottom" panel
+cd /home/pi
 
 echo "----------------------------------------------------"
 echo "---- Increasing gpu memory in /boot/config.txt -----"
@@ -58,6 +58,13 @@ echo "---- Set the spi ports correctly -----"
 echo "--------------------------------------"
 echo
 sudo sed -i "/^#dtparam=spi=on/c\dtparam=spi=off\ndtoverlay=spi5-1cs" /boot/config.txt
+
+echo "----------------------------------------------"
+echo "---- Setting Framebuffer to 32 bit depth -----"
+echo "----------------------------------------------"
+echo
+sudo sed -i "/^dtoverlay=vc4-fkms-v3d/c\#dtoverlay=vc4-fkms-v3d" /boot/config.txt
+
 
 echo "-------------------------------------------"
 echo "---- Download the WinterHill Software -----"
@@ -106,16 +113,18 @@ echo "--------------------------------------------"
 echo "---- Copy the shortcuts to the desktop -----"
 echo "--------------------------------------------"
 echo
-cp /home/pi/winterhill/configs/Kill_WH  /home/pi/Desktop/Kill_WH
-cp /home/pi/winterhill/configs/WH_Local /home/pi/Desktop/WH_Local
-cp /home/pi/winterhill/configs/WH_to_PC /home/pi/Desktop/WH_to_PC
-cp /home/pi/winterhill/configs/WH_to_mc /home/pi/Desktop/WH_to_mc
-cp /home/pi/winterhill/configs/PIC_A    /home/pi/Desktop/PIC_A
-cp /home/pi/winterhill/configs/PIC_B    /home/pi/Desktop/PIC_B
+cp /home/pi/winterhill/configs/Kill_WH      /home/pi/Desktop/Kill_WH
+cp /home/pi/winterhill/configs/WH_Local     /home/pi/Desktop/WH_Local
+cp /home/pi/winterhill/configs/WH_Anyhub    /home/pi/Desktop/WH_Anyhub
+cp /home/pi/winterhill/configs/WH_Anywhere  /home/pi/Desktop/WH_Anywhere
+cp /home/pi/winterhill/configs/WH_Multicast /home/pi/Desktop/WH_Multicast
+cp /home/pi/winterhill/configs/WH_Multihub  /home/pi/Desktop/WH_Multihub
+cp /home/pi/winterhill/configs/PIC_A        /home/pi/Desktop/PIC_A
+cp /home/pi/winterhill/configs/PIC_B        /home/pi/Desktop/PIC_B
 
-echo "---------------------------------------------------------"
-echo "---- Autostart the selected WinterHill mode at boot -----"
-echo "---------------------------------------------------------"
+echo "--------------------------------------------------------------------"
+echo "---- Enable Autostart for the selected WinterHill mode at boot -----"
+echo "--------------------------------------------------------------------"
 echo
 mkdir /home/pi/.config/autostart
 cp /home/pi/winterhill/configs/startup.desktop /home/pi/.config/autostart/startup.desktop
