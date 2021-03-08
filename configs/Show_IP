@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Show IP Address
+Comment=Look up and display IPV4 Address
+Icon=/usr/share/icons/Adwaita/64x64/devices/network-wired-symbolic.symbolic.png
+Exec=/home/pi/winterhill/utils/show_IPV4.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
+Categories=None
+X-KeepTerminal=true

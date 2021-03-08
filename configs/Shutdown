@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Shutdown
+Comment=Desktop Shutdown Icon
+Icon=/usr/share/icons/Adwaita/64x64/actions/application-exit-symbolic.symbolic.png
+Exec=/home/pi/winterhill/utils/shutdown.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
+Categories=None
+X-KeepTerminal=true

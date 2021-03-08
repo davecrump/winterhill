@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Check for Update
+Comment=Check for an Update to WinterHill
+Icon=/usr/share/icons/Adwaita/64x64/status/rotation-allowed-symbolic.symbolic.png
+Exec=/home/pi/winterhill/update.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
+Categories=None
+X-KeepTerminal=true
