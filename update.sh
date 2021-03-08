@@ -5,7 +5,7 @@
 reset
 
 echo "------------------------------------------------"
-echo "------ Commencing WinterHill Update" -----------"
+echo "------ Commencing WinterHill Update ------------"
 echo "------------------------------------------------"
 echo
 
@@ -152,7 +152,7 @@ cd /home/pi
 #echo "----------------------------------------------------"
 #echo
 
-# A new sed line will be reuired here when the driver name is changed
+# A new sed line will be required here when the driver name is changed
 # sudo sed -i "/^exit 0/c\cd /home/pi/winterhill/whsource-3v20/whdriver-3v20\nsudo insmod whdriver-3v20.ko\nexit 0" /etc/rc.local
 
 echo "---------------------------------------------------"
@@ -211,7 +211,7 @@ cp -f -r "$PATHUBACKUP"/prev_installed_version.txt /home/pi/winterhill//prev_ins
 cp -f -r "$PATHUBACKUP"/winterhill.ini "$PATHINI"/winterhill.ini
 
 # Update the version number
-cp -f -r/home/pi/winterhill/latest_version.txt /home/pi/winterhill/installed_version.txt
+cp -f -r /home/pi/winterhill/latest_version.txt /home/pi/winterhill/installed_version.txt
 
 # Save (overwrite) the git source used
 echo "${GIT_SRC}" > /home/pi/${GIT_SRC_FILE}
