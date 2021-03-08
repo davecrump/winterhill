@@ -1,1 +1,0 @@
-cmd_/home/pi/winterhill/whdriver-2v22/whdriver-2v22.ko := ld -r  -EL  --build-id  -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds -o /home/pi/winterhill/whdriver-2v22/whdriver-2v22.ko /home/pi/winterhill/whdriver-2v22/whdriver-2v22.o /home/pi/winterhill/whdriver-2v22/whdriver-2v22.mod.o;  true

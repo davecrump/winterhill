@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Kill_WH
+Name=Stop_WH
 Comment=Run by LXDE after the gui is up and running
-Icon=/usr/share/pixmaps/openbox.png
-Exec=/home/pi/winterhill/whstop-2v22.sh
+Icon=/home/pi/winterhill/configs/stop.png
+Exec=/home/pi/winterhill/whstop-3v20.sh
 Type=Application
 Encoding=UTF-8
 Terminal=true

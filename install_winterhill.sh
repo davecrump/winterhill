@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# WinterHill v2.22 install file
-# G8GKQ 5 Dec 2020
+# WinterHill 3v20 install file
+# G8GKQ 6 Mar 2021
 
 # Winterhill for a 1920 x 1080 screen
-#
 
 whoami | grep -q pi
 if [ $? != 0 ]; then
@@ -12,12 +11,33 @@ if [ $? != 0 ]; then
   exit
 fi
 
-cd /home/pi
+# Check which source needs to be loaded
+GIT_SRC="BritishAmateurTelevisionClub"
+GIT_SRC_FILE=".wh_gitsrc"
 
-echo "----------------------------------------------------------"
-echo "----- Installing the G8GKQ Build of WinterHill V2.22 -----"
-echo "----------------------------------------------------------"
-echo
+if [ "$1" == "-d" ]; then
+  GIT_SRC="davecrump";
+  echo
+  echo "-------------------------------------------------------"
+  echo "----- Installing development version of WinterHill-----"
+  echo "-------------------------------------------------------"
+elif [ "$1" == "-u" -a ! -z "$2" ]; then
+  GIT_SRC="$2"
+  echo
+  echo "WARNING: Installing ${GIT_SRC} development version, press enter to continue or 'q' to quit."
+  read -n1 -r -s key;
+  if [[ $key == q ]]; then
+    exit 1;
+  fi
+  echo "ok!";
+else
+  echo
+  echo "------------------------------------------------------------"
+  echo "----- Installing BATC Production version of WinterHill -----"
+  echo "------------------------------------------------------------"
+fi
+
+cd /home/pi
 
 echo "--------------------------------------------------------"
 echo "----- Disabling the raspberry ssh password warning -----"
@@ -71,35 +91,46 @@ echo "---- Download the WinterHill Software -----"
 echo "-------------------------------------------"
 echo
 cd /home/pi
-wget https://github.com/davecrump/winterhill/archive/main.zip
+wget https://github.com/${GIT_SRC}/winterhill/archive/main.zip
 unzip -o main.zip
 mv winterhill-main winterhill
 rm main.zip
 
 echo "------------------------------------------"
-echo "---- Testing spi driver installation -----"
+echo "---- Building spi driver for install -----"
 echo "------------------------------------------"
 echo
-cd /home/pi/winterhill/whdriver-2v22
+cd /home/pi/winterhill/whsource-3v20/whdriver-3v20
 make
 if [ $? != 0 ]; then
-  echo failed to build WinterHill Driver
+  echo "------------------------------------------"
+  echo "- Failed to build the WinterHill Driver --"
+  echo "------------------------------------------"
   exit
 fi
 
-sudo insmod whdriver-2v22.ko
+# sudo rmmod whdriver-2v22.ko  # Use in future update scripts
+
+sudo insmod whdriver-3v20.ko
 if [ $? != 0 ]; then
-  echo failed to load WinterHill Driver
+  echo "------------------------------------------"
+  echo "--- Failed to load WinterHill Driver -----"
+  echo "------------------------------------------"
   exit
 fi
 
-cat /proc/modules | grep -q 'whdriver_2v22'
+cat /proc/modules | grep -q 'whdriver_3v20'
 if [ $? != 0 ]; then
-  echo failed to load WinterHill Driver
+  echo "-------------------------------------------------------------"
+  echo "--- Failed to find previously loaded  WinterHill Driver -----"
+  echo "-------------------------------------------------------------"
   exit
 else
   echo
-  echo Succesful driver build and load
+  echo "------------------------------------------------"
+  echo "--- Successfully loaded  WinterHill Driver -----"
+  echo "------------------------------------------------"
+  echo
 fi
 cd /home/pi
 
@@ -107,20 +138,51 @@ echo "------------------------------------------------"
 echo "---- Set up to load the spi driver at boot -----"
 echo "------------------------------------------------"
 echo
-sudo sed -i "/^exit 0/c\cd /home/pi/winterhill/whdriver-2v22\nsudo insmod whdriver-2v22.ko\nexit 0" /etc/rc.local
+sudo sed -i "/^exit 0/c\cd /home/pi/winterhill/whsource-3v20/whdriver-3v20\nsudo insmod whdriver-3v20.ko\nexit 0" /etc/rc.local
+
+echo "---------------------------------------------------"
+echo "---- Building the main WinterHill Application -----"
+echo "---------------------------------------------------"
+echo
+cd /home/pi/winterhill/whsource-3v20/whmain-3v20
+make
+if [ $? != 0 ]; then
+  echo "----------------------------------------------"
+  echo "- Failed to build the WinterHill Application -"
+  echo "----------------------------------------------"
+  exit
+fi
+cp winterhill-3v20 /home/pi/winterhill/RPi-3v20/winterhill-3v20
+cd /home/pi
+
+echo "--------------------------------------"
+echo "---- Building the PIC Programmer -----"
+echo "--------------------------------------"
+echo
+cd /home/pi/winterhill/whsource-3v20/whpicprog-3v20
+./make.sh
+if [ $? != 0 ]; then
+  echo "--------------------------------------"
+  echo "- Failed to build the PIC Programmer -"
+  echo "--------------------------------------"
+  exit
+fi
+cp whpicprog-3v20 /home/pi/winterhill/PIC-3v20/whpicprog-3v20
+cd /home/pi
 
 echo "--------------------------------------------"
 echo "---- Copy the shortcuts to the desktop -----"
 echo "--------------------------------------------"
 echo
-cp /home/pi/winterhill/configs/Kill_WH      /home/pi/Desktop/Kill_WH
-cp /home/pi/winterhill/configs/WH_Local     /home/pi/Desktop/WH_Local
-cp /home/pi/winterhill/configs/WH_Anyhub    /home/pi/Desktop/WH_Anyhub
-cp /home/pi/winterhill/configs/WH_Anywhere  /home/pi/Desktop/WH_Anywhere
-cp /home/pi/winterhill/configs/WH_Multicast /home/pi/Desktop/WH_Multicast
-cp /home/pi/winterhill/configs/WH_Multihub  /home/pi/Desktop/WH_Multihub
-cp /home/pi/winterhill/configs/PIC_A        /home/pi/Desktop/PIC_A
-cp /home/pi/winterhill/configs/PIC_B        /home/pi/Desktop/PIC_B
+cp /home/pi/winterhill/configs/Kill_WH           /home/pi/Desktop/Kill_WH
+cp /home/pi/winterhill/configs/WH_Local          /home/pi/Desktop/WH_Local
+cp /home/pi/winterhill/configs/WH_Anyhub         /home/pi/Desktop/WH_Anyhub
+cp /home/pi/winterhill/configs/WH_Anywhere       /home/pi/Desktop/WH_Anywhere
+cp /home/pi/winterhill/configs/WH_Multihub       /home/pi/Desktop/WH_Multihub
+cp /home/pi/winterhill/configs/PIC_Prog          /home/pi/Desktop/PIC_Prog
+cp /home/pi/winterhill/configs/Show_IP           /home/pi/Desktop/Show_IP
+cp /home/pi/winterhill/configs/Shutdown          /home/pi/Desktop/Shutdown
+cp /home/pi/winterhill/configs/Check_for_Update  /home/pi/Desktop/Check_for_Update
 
 echo "--------------------------------------------------------------------"
 echo "---- Enable Autostart for the selected WinterHill mode at boot -----"
@@ -128,6 +190,9 @@ echo "--------------------------------------------------------------------"
 echo
 mkdir /home/pi/.config/autostart
 cp /home/pi/winterhill/configs/startup.desktop /home/pi/.config/autostart/startup.desktop
+
+# Save git source used
+echo "${GIT_SRC}" > /home/pi/${GIT_SRC_FILE}
 
 echo
 echo "SD Card Serial:"
