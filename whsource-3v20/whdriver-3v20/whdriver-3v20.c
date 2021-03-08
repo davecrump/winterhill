@@ -341,18 +341,18 @@ static int dev_open (struct inode *inodep, struct file *filep)
 	
 //	set up the virtual addresses
 	
-		gpio = ioremap_nocache (GPIO_BASE, PAGE_SIZE) ;
+		gpio = ioremap (GPIO_BASE, PAGE_SIZE) ;
    		printk (KERN_INFO "winterhill: GPIO virtual address is 0x%08X\n", (uint32)gpio) ;
 	
-		spiA = ioremap_nocache (SPIA_BASE, PAGE_SIZE) ;
+		spiA = ioremap (SPIA_BASE, PAGE_SIZE) ;
    		printk (KERN_INFO "winterhill: SPIA virtual address is 0x%08X\n", (uint32)spiA) ;
    		printk (KERN_INFO "winterhill: SPIA[DC] is 0x%08X\n", spiA[5]) ;
 	
-		spiB = ioremap_nocache (SPIB_BASE, PAGE_SIZE) ;
+		spiB = ioremap (SPIB_BASE, PAGE_SIZE) ;
    		printk (KERN_INFO "winterhill: SPIB virtual address is 0x%08X\n", (uint32)spiB) ;
    		printk (KERN_INFO "winterhill: SPIB[DC] is 0x%08X\n", spiB[5]) ;
 
-		pactl = ioremap_nocache (PACTL_BASE, PAGE_SIZE) ;
+		pactl = ioremap (PACTL_BASE, PAGE_SIZE) ;
    		printk (KERN_INFO "winterhill: GPIO virtual address is 0x%08X\n", (uint32)gpio) ;
 
 // reset the board
