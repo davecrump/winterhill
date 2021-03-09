@@ -120,8 +120,10 @@ if [ $? != 0 ]; then
   exit
 fi
 
-# Remove any old drivers.  Add to this list after a driver update
+# Remove any old drivers, and the current one  
+# Add current driver to this list after a driver update
 sudo rmmod whdriver-2v22.ko >/dev/null 2>/dev/null
+sudo rmmod whdriver-3v20.ko >/dev/null 2>/dev/null
 
 # Load the new driver
 sudo insmod whdriver-3v20.ko
