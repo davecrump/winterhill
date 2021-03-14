@@ -16,7 +16,8 @@ GIT_SRC="BritishAmateurTelevisionClub"
 GIT_SRC_FILE=".wh_gitsrc"
 
 if [ "$1" == "-d" ]; then
-  GIT_SRC="davecrump";
+  GIT_SRC="davecrump";  # G8GKQ
+  #GIT_SRC="foxcube";    # G4EWJ
   echo
   echo "-------------------------------------------------------"
   echo "----- Installing development version of WinterHill-----"
@@ -96,6 +97,9 @@ unzip -o main.zip
 mv winterhill-main winterhill
 rm main.zip
 
+BUILD_VERSION=$(</home/pi/winterhill/latest_version.txt)
+echo INSTALL WinterHill build started version $BUILD_VERSION > /home/pi/winterhill/whlog.txt
+
 echo "------------------------------------------"
 echo "---- Building spi driver for install -----"
 echo "------------------------------------------"
@@ -106,6 +110,7 @@ if [ $? != 0 ]; then
   echo "------------------------------------------"
   echo "- Failed to build the WinterHill Driver --"
   echo "------------------------------------------"
+  echo INSTALL Initial make of driver failed >> /home/pi/winterhill/whlog.txt
   exit
 fi
 
@@ -116,6 +121,7 @@ if [ $? != 0 ]; then
   echo "------------------------------------------"
   echo "--- Failed to load WinterHill Driver -----"
   echo "------------------------------------------"
+  echo INSTALL Initial insmod of driver failed >> /home/pi/winterhill/whlog.txt
   exit
 fi
 
@@ -124,12 +130,14 @@ if [ $? != 0 ]; then
   echo "-------------------------------------------------------------"
   echo "--- Failed to find previously loaded  WinterHill Driver -----"
   echo "-------------------------------------------------------------"
+  echo INSTALL Initial check of driver failed >> /home/pi/winterhill/whlog.txt
   exit
 else
   echo
   echo "------------------------------------------------"
   echo "--- Successfully loaded  WinterHill Driver -----"
   echo "------------------------------------------------"
+  echo INSTALL Driver Successfully loaded >> /home/pi/winterhill/whlog.txt
   echo
 fi
 cd /home/pi
@@ -150,6 +158,7 @@ if [ $? != 0 ]; then
   echo "----------------------------------------------"
   echo "- Failed to build the WinterHill Application -"
   echo "----------------------------------------------"
+  echo INSTALL make of main application failed >> /home/pi/winterhill/whlog.txt
   exit
 fi
 cp winterhill-3v20 /home/pi/winterhill/RPi-3v20/winterhill-3v20
@@ -165,6 +174,7 @@ if [ $? != 0 ]; then
   echo "--------------------------------------"
   echo "- Failed to build the PIC Programmer -"
   echo "--------------------------------------"
+  echo INSTALL make of PIC Programmer failed >> /home/pi/winterhill/whlog.txt
   exit
 fi
 cp whpicprog-3v20 /home/pi/winterhill/PIC-3v20/whpicprog-3v20
@@ -203,6 +213,8 @@ echo
 echo "--------------------------------"
 echo "----- Complete.  Rebooting -----"
 echo "--------------------------------"
+echo INSTALL Reached end of install script >> /home/pi/winterhill/whlog.txt
+
 sleep 1
 
 sudo reboot now

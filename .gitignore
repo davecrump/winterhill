@@ -1,2 +1,19 @@
+*.swp
+*.bak
+*.inc
+*.o
+*.so
+*.a
+*.cmd
+installed_version.txt
 whlog.txt
+whsource-3v20/whdriver-3v20/Module.symvers
+whsource-3v20/whdriver-3v20/modules.order
+whsource-3v20/whdriver-3v20/whdriver-3v20.ko
+whsource-3v20/whdriver-3v20/whdriver-3v20.mod
+whsource-3v20/whdriver-3v20/whdriver-3v20.mod.c
+whsource-3v20/whmain-3v20/winterhill-3v20
+RPi-3v20/winterhill-3v20
+whsource-3v20/whpicprog-3v20/whpicprog-3v20
+PIC-3v20/whpicprog-3v20
 
