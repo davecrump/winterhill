@@ -1,6 +1,25 @@
 #!/bin/bash
 
-# Used to set the startup behaviour on boot
+# Used to check the PICS are programmed and set the startup behaviour on boot
+
+#### PIC Programming ####
+
+# Check whether programmed and, if not, program them
+
+cd /home/pi/winterhill/whsource-3v20/whpicprog-3v20
+sudo ./whpicprog-3v20 --check >/dev/null 2>/dev/null
+PIC_RETURN=$?
+if [ "$PIC_RETURN" != 34 ] && [ "$PIC_RETURN" != 18 ]; then       # Not programmed correctly
+  echo Attempting to Program both PICs
+  sudo ./whpicprog-3v20 whpic-3v20.hex
+  echo Complete, starting WinterHill
+  echo
+  sleep 1
+fi
+
+cd /home/pi
+
+#### Now Start WinterHill ####
 
 # Uncomment the application that you want to auto-start on boot
 

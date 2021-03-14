@@ -39,12 +39,12 @@ IPPORT=$2
 IPINTERFACEADDRESS=$3
 WINTERHILLCOMMAND="lxterminal -e ./$WINTERHILL"
 
-# set port numbers for VLC; base + 20 + receiver number
+# set port numbers for VLC; base + 40 + receiver number
 
-IPPORT1=$(($IPPORT + 21))
-IPPORT2=$(($IPPORT + 22))
-IPPORT3=$(($IPPORT + 23))
-IPPORT4=$(($IPPORT + 24))
+IPPORT1=$(($IPPORT + 41))
+IPPORT2=$(($IPPORT + 42))
+IPPORT3=$(($IPPORT + 43))
+IPPORT4=$(($IPPORT + 44))
 
 # set window coordinates
 

@@ -23,6 +23,11 @@
 	Modified by Brian Jordan, G4EWJ, 2020 for the WinterHill dual serial NIM project.
 */
 
+// winterhill main application 3v20
+		
+#define VERSIONX	"3v20" 		// main version ID
+#define VERSIONX2	"a" 		// sub version ID
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,48 +42,41 @@
 #define LF		10
 #define TAB		9
 
-// winterhill main application 2v40
-		
-#define VERSIONX	"3v20" 		// ++dev version
-
 /*
 
     This is the main routine for the BATC WinterHill project
     It receives 4 signals from 2 Serit NIMs.
     A PIC interfaces between the each NIM and the Raspberry Pi using SPI
     This routine uses modified WinterHill software
-
     Commands, transport stream output and status output are all via IP
-    
-    Brian Jordan, G4EWJ, December 2020
 */
 
 /*
-    usage:  sudo ./winterhill-2v40 IP_Address IP_Port Interface_IP_Address VLCid1 VLCid2 VLCid3 VLCid4
+    usage:  sudo ./winterhill-3v20 IP_Address IP_Port Interface_IP_Address VLCid1 VLCid2 VLCid3 VLCid4
 
-    E.g.   sudo ./winterhill-2v40 192.168.1.230 9900 0 w1 w2 w3 w4
+    E.g.   sudo ./winterhill-3v20 192.168.1.230 9900 0 w1 w2 w3 w4
  
     Default operation:
     
     Port    Direction   Function
     ----------------------------------------------------------------------
-    9902    OUT         send text info stream for all receivers
-    9903    OUT         send text info stream for all receivers (copy)
-	9904	OUT			send 4 line rx status info 
-	9905	OUT			send 4 line rx status info (copy)
-	9910	IN			list for manual QuickTune like commmands
-    9911    IN          listen for QuickTune commands for receiver 1         
-    9912    IN          listen for QuickTune commands for receiver 2        
-    9913    IN          listen for QuickTune commands for receiver 3        
-    9914    IN          listen for QuickTune commands for receiver 4
-    9921    OUT         send transport stream for receiver 1    
-    9922    OUT         send transport stream for receiver 2    
-    9923    OUT         send transport stream for receiver 3    
-    9924    OUT         send transport stream for receiver 4    
-    9931    OUT         send LM info stream for receiver 1    
-    9932    OUT         send LM info stream for receiver 2    
-    9933    OUT         send LM info stream for receiver 3    
-    9934    OUT         send LM info stream for receiver 4    
+    9901    OUT         send text info stream for all receivers
+	9902	OUT			send 4 line rx status info 
+    9903    OUT         same as 9901
+	9904	OUT			same as 9902
+	9920	IN			listen for manual QuickTune like commmands
+    9921    IN          listen for QuickTune commands for receiver 1         
+    9922    IN          listen for QuickTune commands for receiver 2        
+    9923    IN          listen for QuickTune commands for receiver 3        
+    9924    IN          listen for QuickTune commands for receiver 4
+    9941    OUT         send transport stream for receiver 1    
+    9942    OUT         send transport stream for receiver 2    
+    9943    OUT         send transport stream for receiver 3    
+    9944    OUT         send transport stream for receiver 4    
+    9961    OUT         send LM info stream for receiver 1    
+    9962    OUT         send LM info stream for receiver 2    
+    9963    OUT         send LM info stream for receiver 3    
+    9964    OUT         send LM info stream for receiver 4    
 */ 
 
 #define EIT_PID				18
@@ -232,7 +230,7 @@ struct rxcontrol
 	uint32				vlcstopped ;					// S command sent to VLC
 	uint32				xdotoolid ;						// xdotool ID for the VLC window			
     int32               rawinfos  [MAXINFOS] ;  		// raw values of the info items  
-    char                textinfos [MAXINFOS][16] ;  	// formatted items for info or EIT output, indexed by parameter number  
+    char                textinfos [MAXINFOS][256] ;  	// formatted items for info or EIT output, indexed by parameter number  
 } ; 
 
 
@@ -528,7 +526,7 @@ int main (int argc, char *argv[])
 	printf ("\r\n\r\n") ;
     printf ("============================================================================================\r\n") ;                         
     printf ("============================================================================================\r\n") ;                         
-    printf ("BATC WinterHill 4 Channel Low Symbol Rate Digital TV Receiver - version %s (development)\r\n", VERSIONX) ;
+    printf ("BATC WinterHill 4 Channel Digital TV Receiver - version %s%s \r\n", VERSIONX, VERSIONX2) ;
     printf ("============================================================================================\r\n") ;                         
 
 	terminate 			= 0 ;
@@ -544,7 +542,7 @@ int main (int argc, char *argv[])
 	h265max			= 1 ;							// one H.265 hardware decoder allowed by default
     qo100beaconfreq	= 10491500 ;
     offnettime		= 3600 ;						// 1 hour timeout when sending off net
-    idletime		= 0 ;							// do not switch off receivers
+    idletime		= 0 ;							// do not switch off receivers after inactivity
 	inicommandcount = 0 ;
 	memset (inicommands, 0, sizeof(inicommands)) ;
 
@@ -553,7 +551,7 @@ int main (int argc, char *argv[])
 
 	sprintf (logfilename, "/home/pi/winterhill/whlog.txt") ;
     
-	sprintf (temps, "<<<<<<<<<< Program started: ") ;
+	sprintf (temps, "<<<<<<<<<< Program started:  winterhill-%s%s  ", VERSIONX, VERSIONX2) ;
 	for (x = 0 ; x < (uint32)argc ; x++)
 	{
 		sprintf (temps+strlen(temps), "%s ", argv[x]) ;
@@ -581,14 +579,14 @@ int main (int argc, char *argv[])
 
 // look for winterhill.ini and parse it if present
 
-	ip = fopen ("winterhill.ini","rt") ;
+	ip = fopen ("/home/pi/winterhill/winterhill.ini","rt") ;
 	if (ip == 0)
 	{
-		printf ("winterhill.ini not found\r\n") ;
+		printf ("/home/pi/winterhill/winterhill.ini not found\r\n") ;
 	}
 	else
 	{
-		printf ("Processing winterhill.ini\r\n") ;
+		printf ("Processing /home/pi/winterhill/winterhill.ini\r\n") ;
 		while (!feof(ip))
 		{
 			memset (buff,0,sizeof(buff)) ;
@@ -2655,6 +2653,8 @@ static	uint32			counter ;
 				}
 
 				setup_titlebar (titlebar, rx) ;										// create the VLC title bar
+				strcpy (rcv[rx].textinfos[STATUS_TITLEBAR], titlebar) ;				
+
 
 // send a modified EIT packet to be displayed in the VLC title bar
 
@@ -2800,7 +2800,7 @@ static	uint32			counter ;
 			{
 				if (rcv[rx].lminfosock)						// valid socket
 				{
-			        status = sendto 						// send to base port + 30 + receiver (1-4)
+			        status = sendto 						// send to base port + 60 + receiver (1-4)
     			  	(
    	    			   	rcv[rx].lminfosock, (char*)temps, strlen(temps) + 1, 0,
 	    	   			(struct sockaddr*) &rcv[rx].lminfosockaddr, sizeof(rcv[rx].lminfosockaddr) 

@@ -19,19 +19,23 @@ else
   GIT_SRC="BritishAmateurTelevisionClub"
 fi
 
-## If previous version was Dev (davecrump), load production by default
-if [ "$GIT_SRC" == "davecrump" ]; then
+# Define Location of Dev version
+GIT_DEV="davecrump"  # G8GKQ
+#GIT_DEV="foxcube"     # G4EWJ
+
+## If previous version was Dev, load production by default
+if [ "$GIT_SRC" == "$GIT_DEV" ]; then
   GIT_SRC="BritishAmateurTelevisionClub"
 fi
 
 if [ "$1" == "-d" ]; then
   echo "Overriding to update to latest development version"
-  GIT_SRC="davecrump"
+  GIT_SRC=$GIT_DEV
 fi
 
 if [ "$GIT_SRC" == "BritishAmateurTelevisionClub" ]; then
   echo "Updating to latest Production WinterHill build";
-elif [ "$GIT_SRC" == "davecrump" ]; then
+elif [ "$GIT_SRC" == "$GIT_DEV" ]; then
   echo "Updating to latest development WinterHill build";
 else
   echo "Updating to latest ${GIT_SRC} development WinterHill build";
@@ -63,7 +67,7 @@ echo "-- Making a Back-up of the User Configuration --"
 echo "------------------------------------------------"
 echo
 
-PATHINI="/home/pi/winterhill/RPi-3v20"
+PATHINI="/home/pi/winterhill"
 PATHUBACKUP="/home/pi/user_backups"
 mkdir "$PATHUBACKUP" >/dev/null 2>/dev/null
 
@@ -107,9 +111,15 @@ unzip -o main.zip
 mv winterhill-main winterhill
 rm main.zip
 
-echo "------------------------------------------"
-echo "---- Building spi driver for install -----"
-echo "------------------------------------------"
+BUILD_VERSION=$(</home/pi/winterhill/latest_version.txt)
+sudo chown pi /home/pi/winterhill/whlog.txt  # Will be owned by root in some conditions
+echo UPDATE WinterHill update started version $BUILD_VERSION >> /home/pi/winterhill/whlog.txt
+echo UPDATE from $GIT_SRC repository >> /home/pi/winterhill/whlog.txt
+
+# spi driver may need rebuilding after OS update
+echo "--------------------------------------------"
+echo "---- Rebuilding spi driver for install -----"
+echo "--------------------------------------------"
 echo
 cd /home/pi/winterhill/whsource-3v20/whdriver-3v20
 make
@@ -117,6 +127,7 @@ if [ $? != 0 ]; then
   echo "------------------------------------------"
   echo "- Failed to build the WinterHill Driver --"
   echo "------------------------------------------"
+  echo UPDATE Failed to build the WinterHill Driver >> /home/pi/winterhill/whlog.txt
   exit
 fi
 
@@ -131,6 +142,7 @@ if [ $? != 0 ]; then
   echo "------------------------------------------"
   echo "--- Failed to load WinterHill Driver -----"
   echo "------------------------------------------"
+  echo UPDATE Failed to load the WinterHill Driver >> /home/pi/winterhill/whlog.txt
   exit
 fi
 
@@ -139,12 +151,14 @@ if [ $? != 0 ]; then
   echo "-----------------------------------------------------"
   echo "--- Failed to find new loaded WinterHill Driver -----"
   echo "-----------------------------------------------------"
+  echo UPDATE Failed to find the new loaded WinterHill Driver >> /home/pi/winterhill/whlog.txt
   exit
 else
   echo
   echo "------------------------------------------------"
   echo "--- Successfully loaded  WinterHill Driver -----"
   echo "------------------------------------------------"
+  echo UPDATE Successfully loaded  WinterHill Driver >> /home/pi/winterhill/whlog.txt
   echo
 fi
 cd /home/pi
@@ -167,6 +181,7 @@ if [ $? != 0 ]; then
   echo "----------------------------------------------"
   echo "- Failed to build the WinterHill Application -"
   echo "----------------------------------------------"
+  echo UPDATE Failed to build the WinterHill Application >> /home/pi/winterhill/whlog.txt
   exit
 fi
 cp winterhill-3v20 /home/pi/winterhill/RPi-3v20/winterhill-3v20
@@ -182,6 +197,7 @@ if [ $? != 0 ]; then
   echo "--------------------------------------"
   echo "- Failed to build the PIC Programmer -"
   echo "--------------------------------------"
+  echo UPDATE Failed to build the PIC Programmer >> /home/pi/winterhill/whlog.txt
   exit
 fi
 cp whpicprog-3v20 /home/pi/winterhill/PIC-3v20/whpicprog-3v20
@@ -221,6 +237,7 @@ echo "${GIT_SRC}" > /home/pi/${GIT_SRC_FILE}
 echo "--------------------"
 echo "---- Rebooting -----"
 echo "--------------------"
+echo UPDATE Reached the end of the update script >> /home/pi/winterhill/whlog.txt
 
 sleep 1
 # Turn off swap to prevent reboot hang

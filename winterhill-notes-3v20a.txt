@@ -1,0 +1,125 @@
+WinterHill-3v20
+===============
+
+The main application, .sh files, driver, PIC programmer and PIC hex should all be version 3v20
+Some will report as 3v20a
+Do not mix versions
+
+
+PCB Mods for older boards
+=========================
+
+Boards without programming jumpers near the PICs are OK 
+
+Boards with 2 pin programming jumpers near the PICs are OK 
+
+Boards with 3 pin programming jumpers near the PICs need to be modified for the new PIC programming method
+
+	Remove R31, R33, R37 (and R40 if fitted)
+
+	On PIC_A:
+		connect a wire between the most northerly pin of the programming jumper and pin 26 on the PIC
+		connect a 10k between this wire and pin 1 on the PIC
+
+	On PIC_B:
+		connect a wire between the most northerly pin of the programming jumper and pin 26 on the PIC
+		connect a 10k between this wire and pin 1 on the PIC
+		connect a 1k8 between this wire and pin 28 on the PIC
+
+
+PIC Programmer			
+==============
+
+whpicprog-3v20 has the following features over 2v22:
+
+	Both PICs are programmed in one pass without the need for jumpers or user intervention
+	Board versions with jumpers may need to be modified
+
+	There is an 8 bit status value in the bottom byte of the return value:
+
+		If the value is >= 240 (0xf0) it is an error code and there is no PIC status included
+
+		255		unknown error
+		254		program was not run as sudo
+		253		parameter error
+		252		/dev/i2c-1 could not be found
+		251		IO mapping error
+		250		supplied hex file name could not be found
+		249		hex file address out of implemented range
+		248		supplied file is not a hex file
+
+		If the return value is < 240, it contains PIC_A_STATUS (bits 3:0) and PIC_B_STATUS (bits 7:4)
+
+		0		PIC is present but unprogrammed or version unknown (whpic-2v22 will return this)
+		1		PIC is not present
+		2-14	PIC software version relative to 3v00
+				2 = 3v20, 3=3v30, 9=3v90, 10=4v00, 14=4v40
+		15		invalid
+
+
+	Usage: 		sudo ./whpicprog-3v20 HEXFILENAME		
+
+				both PICs are programmed without any jumpers or user intervention needed
+				the results are in the return value
+
+	Usage:		sudo ./whpicprog-3v20 --check
+
+				PICs are checked without being programmed
+				the results are in the return value
+
+				
+	In the PIC-3v20 folder, there are programs for development testing which will erase just one PIC at a time
+	These should be removed in the release
+
+		sudo ./whpiceraseA-3v20
+		sudo ./whpiceraseB-3v20
+
+
+Main Application
+================
+
+There is an optional winterhill.ini file, which should be in the /home/pi/winterhill folder
+This sets various parameters and can send commands to receivers at startup
+See the included .ini file for info
+
+
+Log File
+========
+
+The main application writes to a log file: /home/pi/winterhill/whlog.txt
+This contains mostly startup info and receive command errors
+
+
+Port Usage
+==========
+
+This has been changed to more easily allow multiple WinterHills
+
+Baseport +
+
+	1		sends extended LM status info for all receivers		used by whpcviewer
+	2		sends 4 line info display							"
+	3		sends copy of 1
+	4		sends copy of 2
+
+	20		listens for extended commands
+	21-24	listens for standard MiniTioune receive commands
+
+	41-44	sends TS
+
+	61-64	sends LM status info
+	
+
+=========
+	
+
+
+
+
+
+
+
+
+
+
+

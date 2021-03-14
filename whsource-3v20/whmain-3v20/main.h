@@ -81,17 +81,13 @@
 #define STATUS_ANTENNA			  33		// 1:2 = TOP:BOT
 #define STATUS_AUDIO_TYPE		  34		// 0x03=MP2, 0x0f=AAC	
 
+
+#define STATUS_TITLEBAR		  	  94		// text put into the VLC title bar
+
 #define STATUS_VLCSTOPS		  	  96		// STOP commands sent by the WH main application
 #define STATUS_VLCNEXTS			  97		// NEXT commands sent by the WH main application
 #define STATUS_MODECHANGES		  98		// increments on a new command, new callsign, new codec
 #define STATUS_IPCHANGES		  99		// incremented when a command comes from a different IP address
-
-/* The number of constellation peeks we do for each background loop */
-
-void config_set_frequency(uint32_t frequency);
-void config_set_symbolrate(uint32_t symbolrate);
-void config_set_frequency_and_symbolrate(uint32_t frequency, uint32_t symbolrate);
-void config_set_lnbv(bool enabled, bool horizontal);
 
 #endif
 
