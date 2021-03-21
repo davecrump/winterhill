@@ -56,7 +56,7 @@ do
     sleep 0.1s
 done
 whwindow=$status
-xdotool windowmove --sync $whwindow 240 580 
+xdotool windowmove --sync $whwindow 260 608 
 xdotool windowsize --sync $whwindow 1500 175
 xdotool set_window --name "$WINTERHILL $IPADDRESS $IPPORT $IPINTERFACEADDRESS" $whwindow 
 
@@ -70,7 +70,7 @@ do
     echo "<$status>"
 done
 whlaunchwindow=$status
-xdotool windowmove $whlaunchwindow 240 800 windowsize $whlaunchwindow 1500 175 
+xdotool windowmove $whlaunchwindow 260 839 windowsize $whlaunchwindow 1500 130
 
 # idle
 

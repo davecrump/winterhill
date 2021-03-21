@@ -19,16 +19,31 @@ fi
 
 cd /home/pi
 
-#### Now Start WinterHill ####
+#### Now Start WinterHill as set in the winterhill.ini file ####
 
-# Uncomment the application that you want to auto-start on boot
-
-lxterminal -t "whlaunch-local-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-local-3v20.sh
-
-#lxterminal -t "whlaunch-anyhub-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-anyhub-3v20.sh
-
-#lxterminal -t "whlaunch-anywhere-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-anywhere-3v20.sh
-
-#lxterminal -t "whlaunch-multihub-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-multihub-3v20.sh
+grep -q 'BOOT = local' winterhill/winterhill.ini
+if [ $? == 0 ]; then
+  lxterminal -t "whlaunch-local-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-local-3v20.sh
+else
+  grep -q 'BOOT = anyhub' winterhill/winterhill.ini
+  if [ $? == 0 ]; then
+    lxterminal -t "whlaunch-anyhub-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-anyhub-3v20.sh
+  else
+    grep -q 'BOOT = anywhere' winterhill/winterhill.ini
+    if [ $? == 0 ]; then
+      lxterminal -t "whlaunch-anywhere-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-anywhere-3v20.sh
+    else
+      grep -q 'BOOT = multihub' winterhill/winterhill.ini
+      if [ $? == 0 ]; then
+        lxterminal -t "whlaunch-multihub-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-multihub-3v20.sh
+      else
+        grep -q 'BOOT = fixed' winterhill/winterhill.ini
+        if [ $? == 0 ]; then
+          lxterminal -t "whlaunch-fixed-3v20.sh" --working-directory=/home/pi/winterhill/RPi-3v20/ -e ./whlaunch-fixed-3v20.sh
+        fi
+      fi
+    fi
+  fi
+fi
 
 exit

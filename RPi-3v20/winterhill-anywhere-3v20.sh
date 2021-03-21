@@ -48,14 +48,14 @@ IPPORT4=$(($IPPORT + 44))
 
 # set window coordinates
 
-VLCWIDTH=830
-VLCHEIGHT=468
+VLCWIDTH=788
+VLCHEIGHT=444
 
-VLCLEFT13=20
+VLCLEFT13=308
 VLCLEFT24=$(($VLCLEFT13 + $VLCWIDTH + 10))
 
-VLCTOP12=40
-VLCTOP34=$(($VLCTOP12 + $VLCHEIGHT + 40))
+VLCTOP12=62
+VLCTOP34=$(($VLCTOP12 + $VLCHEIGHT + 46))
 
 # initialise exit request variable set by 'trapit' signal handler
 
@@ -152,7 +152,7 @@ do
     sleep 0.1s
 done
 whwindow=$status
-xdotool windowmove --sync $whwindow 240 580 
+xdotool windowmove --sync $whwindow 260 608
 xdotool windowsize --sync $whwindow 1500 175 
 xdotool set_window --name "$WINTERHILL $IPADDRESS $IPPORT $IPINTERFACEADDRESS" $whwindow 
 
@@ -166,7 +166,7 @@ do
     echo "<$status>"
 done
 whlaunchwindow=$status
-xdotool windowmove $whlaunchwindow 240 800 windowsize $whlaunchwindow 1500 175 
+xdotool windowmove $whlaunchwindow 260 839 windowsize $whlaunchwindow 1500 130 
 
 # hide most of the whlaunch and winterhill windows
 

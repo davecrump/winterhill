@@ -86,6 +86,12 @@ echo "----------------------------------------------"
 echo
 sudo sed -i "/^dtoverlay=vc4-fkms-v3d/c\#dtoverlay=vc4-fkms-v3d" /boot/config.txt
 
+echo "------------------------------------------------------------"
+echo "---- Setting GUI to start with or without HDMI display -----"
+echo "------------------------------------------------------------"
+echo
+sudo sed -i "/^#hdmi_force_hotplug=1/c\hdmi_force_hotplug=1" /boot/config.txt
+
 
 echo "-------------------------------------------"
 echo "---- Download the WinterHill Software -----"
