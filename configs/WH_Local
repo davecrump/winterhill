@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=WH_Local
+Name=WinterHill Local
 Comment=Displays 4 VLCs on the RPi HDMI Screen
 Icon=/usr/share/pixmaps/openbox.png
 Exec=/home/pi/winterhill/RPi-3v20/whlaunch-local-3v20.sh

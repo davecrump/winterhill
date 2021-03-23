@@ -23,9 +23,34 @@ do
   WHRUNS=$?
 done
 
+pgrep lxterminal
+LXTRUNS=$?
 
+while [ $LXTRUNS = 0 ]
+do
+  PID=$(pgrep lxterminal | head -n 1)
 
-#sudo killall -9 winterhill-local-2v22.sh  >/dev/null 2>/dev/null
+  echo $PID
 
+  sudo kill "$PID"
 
+  sleep 1
+
+  PID=$(pgrep lxterminal | head -n 1)
+
+  echo $PID
+
+  sudo kill -9 "$PID"
+
+  pgrep lxterminal
+  LXTRUNS=$?
+done
+
+sudo killall vlc
+
+sleep 1
+
+sudo killall -9 vlc
+
+exit
 

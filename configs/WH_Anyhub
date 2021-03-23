@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=WH_Anyhub
+Name=WinterHill Anyhub
 Comment=TS is sent to wherever the QT receive command came from
 Icon=/usr/share/pixmaps/openbox.png
 Exec=/home/pi/winterhill/RPi-3v20/whlaunch-anyhub-3v20.sh

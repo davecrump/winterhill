@@ -1,12 +1,11 @@
 [Desktop Entry]
-Name=WinterHill Multihub
-Comment=Multicast to 230.0.0.230:9921, 2, 3, 4
+Name=WinterHill Fixed
+Comment=Sends 4 TS to a fixed IP.  No local display
 Icon=/usr/share/pixmaps/openbox.png
-Exec=/home/pi/winterhill/RPi-3v20/whlaunch-multihub-3v20.sh
+Exec=/home/pi/winterhill/RPi-3v20/whlaunch-fixed-3v20.sh
 Type=Application
 Encoding=UTF-8
 Terminal=true
 StartupNotify=false
 Categories=None
 X-KeepTerminal=true
-

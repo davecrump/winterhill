@@ -195,6 +195,7 @@ cp /home/pi/winterhill/configs/WH_Local          /home/pi/Desktop/WH_Local
 cp /home/pi/winterhill/configs/WH_Anyhub         /home/pi/Desktop/WH_Anyhub
 cp /home/pi/winterhill/configs/WH_Anywhere       /home/pi/Desktop/WH_Anywhere
 cp /home/pi/winterhill/configs/WH_Multihub       /home/pi/Desktop/WH_Multihub
+cp /home/pi/winterhill/configs/WH_Fixed          /home/pi/Desktop/WH_Fixed
 cp /home/pi/winterhill/configs/PIC_Prog          /home/pi/Desktop/PIC_Prog
 cp /home/pi/winterhill/configs/Show_IP           /home/pi/Desktop/Show_IP
 cp /home/pi/winterhill/configs/Shutdown          /home/pi/Desktop/Shutdown
