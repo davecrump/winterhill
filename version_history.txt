@@ -1,3 +1,6 @@
+202108240
+Allow system update release info change
+
 202103140
 Check PICs on startup
 Install and Update write to LogFile

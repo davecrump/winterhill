@@ -81,10 +81,10 @@ echo
 echo "Updating the OS and Installed Packages"
 echo
 
-sudo dpkg --configure -a     # Make sure that all the packages are properly configured
-sudo apt-get clean           # Clean up the old archived packages
-sudo apt-get update          # Update the package list
-sudo apt-get -y dist-upgrade # Upgrade all the installed packages to their latest version
+sudo dpkg --configure -a                         # Make sure that all the packages are properly configured
+sudo apt-get clean                               # Clean up the old archived packages
+sudo apt-get update --allow-releaseinfo-change   # Update the package list
+sudo apt-get -y dist-upgrade                     # Upgrade all the installed packages to their latest version
 
 # --------- Install new packages as Required ---------
 
